@@ -1,0 +1,20 @@
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    >
+
+    <item
+        android:id="@+id/action_sale_invoice_detial"
+        android:title="Sale Invoice Detial" />
+    <item
+        android:id="@+id/action_purchase_invoice_detial"
+        android:title="Purchase Invoice Detial" />
+    <item
+        android:id="@+id/action_payment_detial"
+        android:title="Payment Detial" />
+    <item
+        android:id="@+id/action_item"
+        android:title="Item add" />
+    <item
+        android:id="@+id/action_logout"
+        android:title="Logout" />
+</menu>

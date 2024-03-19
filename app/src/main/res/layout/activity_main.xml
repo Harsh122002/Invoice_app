@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:app="http://schemas.android.com/apk/res-auto"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+    android:background="@drawable/gradient_drawable"
+android:padding="16dp">
+
+<!-- Title Bar -->
+<TextView
+    android:id="@+id/titleLabel"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Login"
+    android:textSize="24sp"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="16dp"/>
+
+<!-- Email Input -->
+<com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/emailLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/titleLabel"
+    android:layout_marginTop="16dp">
+
+    <com.google.android.material.textfield.TextInputEditText
+        android:id="@+id/email"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Email"
+        android:inputType="textEmailAddress"/>
+
+</com.google.android.material.textfield.TextInputLayout>
+
+<!-- Password Input -->
+<com.google.android.material.textfield.TextInputLayout
+    android:id="@+id/passwordLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_below="@id/emailLayout"
+    android:layout_marginTop="16dp">
+
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Password"
+        android:inputType="textPassword"/>
+
+</com.google.android.material.textfield.TextInputLayout>
+
+<!-- Password Visibility Toggle -->
+    <ImageButton
+        android:id="@+id/passwordToggle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignEnd="@id/passwordLayout"
+        android:layout_alignBottom="@id/passwordLayout"
+        android:layout_marginEnd="8dp"
+        android:background="?attr/selectableItemBackgroundBorderless"
+        android:padding="8dp"
+        android:src="@drawable/ic_visibility_off"
+        android:contentDescription="@string/toggle_password_visibility" />
+
+
+<!-- Forgot Password TextView -->
+<TextView
+    android:id="@+id/forgotPasswordTextView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Forgot Password?"
+    android:textColor="@color/colorPrimary"
+    android:layout_below="@id/passwordLayout"
+    android:layout_marginTop="16dp"/>
+
+<!-- Login Button -->
+<Button
+    android:id="@+id/loginButton"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="Login"
+    android:layout_below="@id/forgotPasswordTextView"
+    android:layout_marginTop="16dp"/>
+
+<!-- Register TextView -->
+<TextView
+    android:id="@+id/registerTextView"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Register"
+    android:textColor="@color/colorPrimary"
+    android:layout_below="@id/loginButton"
+    android:layout_centerHorizontal="true"
+    android:layout_marginTop="16dp"/>
+
+</RelativeLayout>

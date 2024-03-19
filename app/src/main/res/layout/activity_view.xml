@@ -1,0 +1,251 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/companyNameLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp">
+
+        <TextView
+            android:id="@+id/company_name"
+            android:layout_width="match_parent"
+            android:layout_height="35dp"
+            android:text="Company Name"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textSize="22dp"
+            android:layout_marginTop="10dp"
+            />
+    </LinearLayout>
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="50dp"
+    tools:ignore="MissingConstraints">
+
+    <TextView
+        android:id="@+id/addressTextView"
+        android:layout_width="201dp"
+        android:layout_height="39dp"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center"
+        android:layout_marginTop="75dp"
+        android:text="Address"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="62dp" />
+
+    <TextView
+        android:id="@+id/Gst_co"
+        android:layout_width="180dp"
+        android:layout_height="38dp"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center"
+        android:layout_marginLeft="210dp"
+        android:layout_marginTop="75dp"
+        android:text="Gst"
+        android:textAlignment="center"
+        android:textSize="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        tools:ignore="MissingConstraints"
+        tools:layout_editor_absoluteY="62dp" />
+
+</RelativeLayout>
+
+
+    <RelativeLayout
+        android:id="@+id/clientInfoLayout"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="120dp">
+
+        <TextView
+            android:id="@+id/clientNameTextView"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:text="Client Name"/>
+
+        <TextView
+            android:id="@+id/clientAddressTextView"
+            android:layout_width="200dp"
+            android:layout_height="60dp"
+            android:layout_marginLeft="230dp"
+            android:textAlignment="center"
+            android:gravity="center"
+            android:text="Address"/>
+
+        <Button
+            android:id="@+id/button_home"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="55dp"
+            android:layout_marginBottom="39dp"
+            android:text="Home" />
+
+        <Button
+            android:id="@+id/button2_pdf"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="41dp"
+            android:layout_marginLeft="200dp"
+            android:text="Pdf" />
+
+        <TextView
+            android:id="@+id/discountTextView"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:layout_alignParentStart="true"
+            android:layout_marginStart="34dp"
+            android:layout_marginTop="400dp"
+            android:text="Discount"
+            android:textSize="15dp"
+            android:textAlignment="center"/>
+
+
+    </RelativeLayout>
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_marginTop="190dp"
+        tools:ignore="MissingConstraints">
+
+
+        <TextView
+            android:id="@+id/Date_p"
+            android:layout_width="200dp"
+            android:layout_height="35dp"
+            android:textSize="22dp"
+            android:text="Date"
+            android:textAlignment="center"/>
+
+        <TextView
+            android:id="@+id/invoice"
+            android:layout_width="200dp"
+            android:layout_height="35dp"
+            android:textSize="22dp"
+            android:layout_marginLeft="210dp"
+            android:text="Invoice Number"
+            android:textAlignment="center"/>
+    </RelativeLayout>
+
+    <!-- Table Section -->
+    <RelativeLayout
+        android:id="@+id/tableSectionLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="250dp">
+
+        <!-- Add horizontal scroll view and table layout for listing products -->
+
+        <HorizontalScrollView
+            android:id="@+id/horizontalScrollView"
+            android:layout_width="match_parent"
+            android:layout_height="246dp">
+
+            <TableLayout
+                android:id="@+id/tableLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:stretchColumns="*">
+
+                <!-- Table headers -->
+                <TableRow
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content">
+
+                    <TextView
+                        android:id="@+id/productNameTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="Product Name" />
+
+                    <TextView
+                        android:id="@+id/qtyTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="Quantity" />
+
+                    <TextView
+                        android:id="@+id/unitTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="Unit" />
+
+                    <TextView
+                        android:id="@+id/priceTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="Price" />
+
+                    <TextView
+                        android:id="@+id/gstTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="GST" />
+
+
+                    <TextView
+                        android:id="@+id/amountTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:padding="8dp"
+                        android:text="Amount" />
+
+                    <!-- Add TextViews for other column headers similarly -->
+
+                </TableRow>
+                <!-- Add table rows for your data -->
+
+            </TableLayout>
+        </HorizontalScrollView>
+    </RelativeLayout>
+
+
+
+
+    <RelativeLayout
+        android:id="@+id/totalAmountLayout"
+        android:layout_width="410dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="580dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints">
+
+        <!-- Display total amount -->
+
+        <TextView
+            android:id="@+id/totalAmountTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="580dp"
+            android:text="Total Amount: 0.00"
+            android:textSize="18sp" />
+
+
+    </RelativeLayout>
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

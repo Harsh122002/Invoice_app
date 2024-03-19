@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/gradient_drawable"
+        android:padding="25dp"
+        android:layout_gravity="center"
+        tools:context=".ItemAddActivity">
+
+        <!-- Title -->
+        <TextView
+            android:id="@+id/textViewTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Add Item"
+            android:textSize="35dp"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="25dp"
+            android:layout_marginBottom="16dp"/>
+
+        <EditText
+            android:id="@+id/editTextItemName"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/textViewTitle"
+            android:layout_marginTop="16dp"
+            android:hint="Item Name" />
+
+        <EditText
+            android:id="@+id/editTextItemPrice"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextItemName"
+            android:layout_marginTop="16dp"
+            android:hint="Item Price"
+            android:inputType="numberDecimal" />
+
+        <EditText
+            android:id="@+id/editTextItemDiscount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextItemPrice"
+            android:layout_marginTop="16dp"
+            android:hint="Item Discount (%)"
+            android:inputType="numberDecimal" />
+
+        <EditText
+            android:id="@+id/gst_tax"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/editTextItemDiscount"
+            android:layout_marginTop="16dp"
+            android:hint="Gst_Tax (%)"
+            android:inputType="numberDecimal" />
+
+
+
+        <Button
+            android:id="@+id/buttonAddItem"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gst_tax"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="16dp"
+            android:text="Add Item" />
+
+    </RelativeLayout>
+</ScrollView>

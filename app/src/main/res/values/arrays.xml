@@ -1,0 +1,24 @@
+<resources>
+    <!-- Array for theme entries -->
+    <string-array name="theme_entries">
+        <item>Light Theme</item>
+        <item>Dark Theme</item>
+    </string-array>
+
+    <!-- Array for theme values -->
+    <string-array name="theme_values">
+        <item>light</item>
+        <item>dark</item>
+    </string-array>
+    <string-array name="tax_options">
+
+        <item>3%</item>
+        <item>5%</item>
+        <item>12%</item>
+        <item>18%</item>
+        <item>28%</item>
+        <item>15%</item>
+    </string-array>
+    <string name="select_tax">Select Tax</string>
+
+</resources>
