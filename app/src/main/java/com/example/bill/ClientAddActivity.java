@@ -1,6 +1,7 @@
 package com.example.bill;
 
 import android.content.ContentValues;
+import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.view.View;
@@ -39,9 +40,39 @@ public class ClientAddActivity extends AppCompatActivity {
         buttonAddClient.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Get the entered values from the EditText fields
+                String clientName = editTextClientName.getText().toString().trim();
+                String gstNumber = editTextGSTNumber.getText().toString().trim();
+                String mobileNumber = editTextMobileNumber.getText().toString().trim();
+                String emailId = editTextEmailId.getText().toString().trim();
+                String address = editTextAddress.getText().toString().trim();
+
+                // Check if any field is empty
+                if (clientName.isEmpty() || gstNumber.isEmpty() || mobileNumber.isEmpty() || emailId.isEmpty() || address.isEmpty()) {
+                    // Display message asking the user to fill in all fields
+                    Toast.makeText(getApplicationContext(), "Please fill in all required fields.", Toast.LENGTH_SHORT).show();
+                    return; // Exit the method
+                }
+
+                // Validate mobile number (should have exactly 10 digits)
+                if (mobileNumber.length() != 10) {
+                    Toast.makeText(getApplicationContext(), "Mobile number should have exactly 10 digits.", Toast.LENGTH_SHORT).show();
+                    return; // Exit the method
+                }
+
+                // Validate email format (ending with "@company.com")
+                if (!emailId.matches(".*@company\\.com$")) {
+                    Toast.makeText(getApplicationContext(), "Email should end with '@company.com'", Toast.LENGTH_SHORT).show();
+                    return; // Exit the method
+                }
+
+                // If all validations pass, proceed to insert client
                 insertClient();
+                Intent intent = new Intent(ClientAddActivity.this, Fragment_home.class);
+                startActivity(intent);
             }
         });
+
     }
 
     private void insertClient() {

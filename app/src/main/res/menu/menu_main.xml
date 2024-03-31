@@ -12,8 +12,11 @@
         android:id="@+id/action_payment_detial"
         android:title="Payment Detial" />
     <item
+        android:id="@+id/action_client"
+        android:title="show client" />
+    <item
         android:id="@+id/action_item"
-        android:title="Item add" />
+        android:title="show item" />
     <item
         android:id="@+id/action_logout"
         android:title="Logout" />

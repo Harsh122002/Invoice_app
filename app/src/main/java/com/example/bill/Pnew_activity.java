@@ -2,6 +2,7 @@ package com.example.bill;
 
 import android.app.AlertDialog;
 import android.content.ContentValues;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.database.Cursor;
@@ -25,7 +26,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import java.util.ArrayList;
 import java.util.List;
 
-public class NewActivity extends AppCompatActivity {
+public class Pnew_activity extends AppCompatActivity {
 
     private ItemDbHelper itemDBHelper;
     private SItemDbHelper SitemDBHelper;
@@ -43,6 +44,7 @@ public class NewActivity extends AppCompatActivity {
     TextView gstTextView = null;
     TextView discountTextView = null;
     TextView amountTextView = null;
+    private Context context;
 
     public class Order {
         private String productName;
@@ -135,7 +137,7 @@ public class NewActivity extends AppCompatActivity {
                         showItemList(itemNames);
                     } catch (Exception e) {
                         e.printStackTrace();
-                        Toast.makeText(NewActivity.this, "Error occurred while retrieving items", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Pnew_activity.this, "Error occurred while retrieving items", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -159,21 +161,21 @@ public class NewActivity extends AppCompatActivity {
                                 TextUtils.isEmpty(price) || TextUtils.isEmpty(gst) || TextUtils.isEmpty(discount) ||
                                 TextUtils.isEmpty(amount)) {
                             // If any field is empty, show a toast message and return
-                            Toast.makeText(NewActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Pnew_activity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
                         // Create a new row for the table
-                        TableRow newRow = new TableRow(NewActivity.this);
+                        TableRow newRow = new TableRow(Pnew_activity.this);
 
                         // Create TextViews for each column in the row
-                        productNameTextView = new TextView(NewActivity.this);
-                        qtyTextView = new TextView(NewActivity.this);
-                        unitTextView = new TextView(NewActivity.this);
-                        priceTextView = new TextView(NewActivity.this);
-                        gstTextView = new TextView(NewActivity.this);
-                        discountTextView = new TextView(NewActivity.this);
-                        amountTextView = new TextView(NewActivity.this);
+                        productNameTextView = new TextView(Pnew_activity.this);
+                        qtyTextView = new TextView(Pnew_activity.this);
+                        unitTextView = new TextView(Pnew_activity.this);
+                        priceTextView = new TextView(Pnew_activity.this);
+                        gstTextView = new TextView(Pnew_activity.this);
+                        discountTextView = new TextView(Pnew_activity.this);
+                        amountTextView = new TextView(Pnew_activity.this);
 
                         // Set text for TextViews
                         qtyTextView.setText(qty);
@@ -201,13 +203,13 @@ public class NewActivity extends AppCompatActivity {
                         clearEditTextFields();
 
                         // Show a toast message indicating save action
-                        Toast.makeText(NewActivity.this, "Data saved and added to table", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Pnew_activity.this, "Data saved and added to table", Toast.LENGTH_SHORT).show();
 
                         // Update total amount after adding a new row
                         updateTotalAmount();
                     } catch (Exception e) {
                         e.printStackTrace();
-                        Toast.makeText(NewActivity.this, "Error occurred while saving data", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Pnew_activity.this, "Error occurred while saving data", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -223,7 +225,6 @@ public class NewActivity extends AppCompatActivity {
                         String clientName = getIntent().getStringExtra("client_name");
                         String address = getIntent().getStringExtra("address");
 
-                        // Retrieve values from TextView fields
                         String productName = productNameTextView.getText().toString();
                         String qty = qtyTextView.getText().toString();
                         String unit = unitTextView.getText().toString();
@@ -232,12 +233,12 @@ public class NewActivity extends AppCompatActivity {
                         String discount = discountTextView.getText().toString();
                         String amount = amountTextView.getText().toString();
 
-                        // Check if any of the TextView fields are empty
+                        // Check if any of the EditText fields are empty
                         if (TextUtils.isEmpty(productName) || TextUtils.isEmpty(qty) || TextUtils.isEmpty(unit) ||
                                 TextUtils.isEmpty(price) || TextUtils.isEmpty(gst) || TextUtils.isEmpty(discount) ||
                                 TextUtils.isEmpty(amount)) {
                             // If any field is empty, show a toast message and return
-                            Toast.makeText(NewActivity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(Pnew_activity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
@@ -254,23 +255,23 @@ public class NewActivity extends AppCompatActivity {
                         orders.add(order);
 
                         // Log debug information for each order in the list
-                        Log.d("insertOrderData", "Order: " + amount + " " + gst);
+                        Log.d("insertOrderData", "Order: " + amountTextView.getText().toString() + " " + gstTextView.getText().toString());
 
                         // Insert data into the database for the current item
                         insertOrderData(invoiceNumber, selectedDate, clientName, address, orders);
 
                         // Show a toast message indicating add action
-                        Toast.makeText(NewActivity.this, "Data added for the current item", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Pnew_activity.this, "Data added for the current item", Toast.LENGTH_SHORT).show();
 
-                        // Start the view_activity
-                        Intent intent = new Intent(NewActivity.this, view_activity.class);
+                        // Start the FrontActivity
+                        Intent intent = new Intent(Pnew_activity.this, FrontActivity.class);
                         startActivity(intent);
 
                         // Finish the current activity
                         finish();
                     } catch (Exception e) {
                         e.printStackTrace();
-                        Toast.makeText(NewActivity.this, "Error occurred while adding data", Toast.LENGTH_SHORT).show();
+                        Toast.makeText(Pnew_activity.this, "Error occurred while adding data", Toast.LENGTH_SHORT).show();
                     }
                 }
             });
@@ -286,7 +287,7 @@ public class NewActivity extends AppCompatActivity {
             updateTotalAmount();
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(NewActivity.this, "Error occurred in onCreate()", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Pnew_activity.this, "Error occurred in onCreate()", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -304,7 +305,7 @@ public class NewActivity extends AppCompatActivity {
                 calculateTotalAmount();
             } catch (Exception e) {
                 e.printStackTrace();
-                Toast.makeText(NewActivity.this, "Error occurred while calculating total amount", Toast.LENGTH_SHORT).show();
+                Toast.makeText(Pnew_activity.this, "Error occurred while calculating total amount", Toast.LENGTH_SHORT).show();
             }
         }
     };
@@ -331,7 +332,7 @@ public class NewActivity extends AppCompatActivity {
             amountEditText.setText(String.valueOf(discountedTotal));
         } catch (Exception e) {
             e.printStackTrace();
-            Toast.makeText(NewActivity.this, "Error occurred while calculating total amount", Toast.LENGTH_SHORT).show();
+            Toast.makeText(Pnew_activity.this, "Error occurred while calculating total amount", Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -436,28 +437,31 @@ public class NewActivity extends AppCompatActivity {
         SQLiteDatabase db = null;
         try {
             // Get writable database
-            db = SitemDBHelper.getWritableDatabase();   
+            PItemDbHelper dbHelper = new PItemDbHelper(getApplicationContext());
+            db = dbHelper.getWritableDatabase();
+
+            // Begin a transaction
             db.beginTransaction();
 
             // Loop through each order and insert into the database
             for (Order order : orders) {
                 // Create ContentValues object to store column-value pairs for the order
                 ContentValues values = new ContentValues();
-                values.put(SItemContract.ItemEntry.COLUMN_NAME_INVOICE_NUMBER, invoiceNumber);
-                values.put(SItemContract.ItemEntry.COLUMN_NAME_DATE, selectedDate);
-                values.put(SItemContract.ItemEntry.COLUMN_NAME_CLIENT_NAME, clientName);
-                values.put(SItemContract.ItemEntry.COLUMN_NAME_ADDRESS, address);
-                values.put(SItemContract.ItemEntry.COLUMN_NAME_PRODUCT, order.getProductName());
-                values.put(SItemContract.ItemEntry.COLUMN_NAME_QTY, order.getQty());
-                values.put(SItemContract.ItemEntry.COLUMN_NAME_UNIT, order.getUnit());
-                values.put(SItemContract.ItemEntry.COLUMN_NAME_PRICE, order.getPrice());
-                values.put(SItemContract.ItemEntry.COLUMN_NAME_GST, order.getGst());
-                values.put(SItemContract.ItemEntry.COLUMN_NAME_DISCOUNT, order.getDiscount());
-                values.put(SItemContract.ItemEntry.COLUMN_NAME_AMOUNT, order.getAmount());
-                values.put(SItemContract.ItemEntry.COLUMN_NAME_TOTAL_AMOUNT,order.getTotalAmount());
+                values.put(PItemContract.ItemEntry.COLUMN_NAME_INVOICE_NUMBER, invoiceNumber);
+                values.put(PItemContract.ItemEntry.COLUMN_NAME_DATE, selectedDate);
+                values.put(PItemContract.ItemEntry.COLUMN_NAME_CLIENT_NAME, clientName);
+                values.put(PItemContract.ItemEntry.COLUMN_NAME_ADDRESS, address);
+                values.put(PItemContract.ItemEntry.COLUMN_NAME_PRODUCT, order.getProductName());
+                values.put(PItemContract.ItemEntry.COLUMN_NAME_QTY, order.getQty());
+                values.put(PItemContract.ItemEntry.COLUMN_NAME_UNIT, order.getUnit());
+                values.put(PItemContract.ItemEntry.COLUMN_NAME_PRICE, order.getPrice());
+                values.put(PItemContract.ItemEntry.COLUMN_NAME_GST, order.getGst());
+                values.put(PItemContract.ItemEntry.COLUMN_NAME_DISCOUNT, order.getDiscount());
+                values.put(PItemContract.ItemEntry.COLUMN_NAME_AMOUNT, order.getAmount());
+                values.put(PItemContract.ItemEntry.COLUMN_NAME_TOTAL_AMOUNT,order.getTotalAmount());
 
                 // Insert the new row
-                long newRowId = db.insert(SItemContract.ItemEntry.TABLE_NAME, null, values);
+                long newRowId = db.insert(PItemContract.ItemEntry.TABLE_NAME, null, values);
 
                 // Check if insertion was successful
                 if (newRowId != -1) {

@@ -39,8 +39,21 @@ public class ItemAddActivity extends AppCompatActivity {
         buttonAddItem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                editTextItemName = findViewById(R.id.editTextItemName);
+                editTextItemPrice = findViewById(R.id.editTextItemPrice);
+                editTextItemDiscount = findViewById(R.id.editTextItemDiscount);
+                editTextGstTax = findViewById(R.id.gst_tax);
+
+                if (editTextGstTax.getText().toString().trim().isEmpty()) {
+                    // Display message asking the user to fill GST tax
+                    Toast.makeText(getApplicationContext(), "Please fill in GST tax.", Toast.LENGTH_SHORT).show();
+                }
+                else {
                 addItemToDatabase();
-            }
+                    Intent intent = new Intent(ItemAddActivity.this, Fragment_home.class);
+                    startActivity(intent);
+                    finish();
+                }}
         });
     }
 
@@ -70,9 +83,7 @@ public class ItemAddActivity extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Item added successfully", Toast.LENGTH_SHORT).show();
 
             // Navigate to FrontActivity
-            Intent intent = new Intent(ItemAddActivity.this, FrontActivity.class);
-            startActivity(intent);
-            finish(); // Optional: Finish the current activity to prevent the user from navigating back to it
+            // Optional: Finish the current activity to prevent the user from navigating back to it
         } else {
             // Insertion failed
             Toast.makeText(getApplicationContext(), "Failed to add item", Toast.LENGTH_SHORT).show();

@@ -62,6 +62,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
                 }
             }
         });
+
     }
 
     public boolean updatePasswordInDatabase(String email, String newPassword) {

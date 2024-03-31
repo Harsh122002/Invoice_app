@@ -39,14 +39,16 @@ public class FrontActivity extends AppCompatActivity {
                 return false;
             }
         });
+        replaceFragment(new Fragment_home());
     }
 
     private void replaceFragment(Fragment fragment) {
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.fragment_container, fragment)
-
+                .addToBackStack(null)  // Add fragment to backstack
                 .commit();
     }
+
 }
 
 

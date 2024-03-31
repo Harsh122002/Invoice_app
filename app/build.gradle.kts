@@ -37,13 +37,14 @@ android {
 
 dependencies {
 
-    implementation("androidx.appcompat:appcompat:1.6.1")
+    implementation("androidx.appcompat:appcompat:1.4.1")
     implementation("com.google.android.material:material:1.11.0")
     implementation("androidx.constraintlayout:constraintlayout:2.1.4")
-    implementation ("androidx.preference:preference-ktx:1.1.1")
+    implementation ("androidx.preference:preference-ktx:1.2.1")
     implementation("androidx.preference:preference:1.2.1")
 
-    implementation ("com.github.tejpratap46:PDFCreatorAndroid:3.0.2")
+    implementation ("com.itextpdf:itext7-core:7.1.15")
+
 
 
     testImplementation("junit:junit:4.13.2")

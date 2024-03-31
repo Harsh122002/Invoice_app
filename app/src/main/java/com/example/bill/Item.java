@@ -1,58 +1,79 @@
 package com.example.bill;
 
 public class Item {
-    private String name;
-    private double quantity;
+    private String date;
+    private String clientName;
+    private String address;
+    private String product;
+    private int quantity;
+    private String unit;
     private double price;
     private double gst;
     private double discount;
+    private double amount;
+    private double totalAmount;
 
-    public Item(String name, double quantity, double price, double gst, double discount) {
-        this.name = name;
+    // Constructor
+    public Item(String date, String clientName, String address, String product, int quantity, String unit, double price, double gst, double discount, double amount, double totalAmount) {
+        this.date = date;
+        this.clientName = clientName;
+        this.address = address;
+        this.product = product;
         this.quantity = quantity;
+        this.unit = unit;
         this.price = price;
         this.gst = gst;
         this.discount = discount;
+        this.amount = amount;
+        this.totalAmount = totalAmount;
     }
 
-    // Add getters and setters as needed
-    public String getName() {
-        return name;
+    public static void add(Items items) {
+
     }
 
-    public void setName(String name) {
-        this.name = name;
+    // Getters
+    public String getDate() {
+        return date;
     }
 
-    public double getQuantity() {
+    public String getClientName() {
+        return clientName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public String getProduct() {
+        return product;
+    }
+
+    public int getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(double quantity) {
-        this.quantity = quantity;
+    public String getUnit() {
+        return unit;
     }
 
     public double getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
     public double getGst() {
         return gst;
-    }
-
-    public void setGst(double gst) {
-        this.gst = gst;
     }
 
     public double getDiscount() {
         return discount;
     }
 
-    public void setDiscount(double discount) {
-        this.discount = discount;
+    public double getAmount() {
+        return amount;
+    }
+
+    public double getTotalAmount() {
+        return totalAmount;
     }
 }

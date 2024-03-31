@@ -47,6 +47,7 @@ public class Fragment_home extends Fragment {
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_home2, container, false);
 
+
         // Find views
         saleInvoiceTextView = view.findViewById(R.id.saleInvoice);
         purchaseInvoiceTextView = view.findViewById(R.id.purchaseInvoice);
@@ -59,6 +60,13 @@ public class Fragment_home extends Fragment {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(getActivity(), SaleInvoiceActivity.class));
+            }
+        });
+
+        purchaseInvoiceTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), PurchaseInvoiceActivity.class));
             }
         });
 
@@ -126,10 +134,13 @@ public class Fragment_home extends Fragment {
             // Handle payment detail item click
             handlePaymentDetail();
             return true;
+        } else if (itemId == R.id.action_client) {
+            // Handle item add item click
+            handleclientAdd();
+            return true;
         } else if (itemId == R.id.action_item) {
             // Handle item add item click
-            handleItemAdd();
-            return true;
+            handleitemAdd();
         } else if (itemId == R.id.action_logout) {
             // Handle logout item click
             handleLogout();
@@ -138,21 +149,53 @@ public class Fragment_home extends Fragment {
             // If the item ID does not match any of the known IDs, call the superclass method
             return super.onOptionsItemSelected(item);
         }
+    return false;
     }
 
     private void handleSaleInvoiceDetail() {
         // Add code to handle sale invoice detail item click
+        Toast.makeText(getActivity(), "Sales Show...", Toast.LENGTH_SHORT).show();
+
+        // Start MainActivity to perform logout
+        Intent intent = new Intent(getActivity(), SaleshowAcitvity.class);
+        startActivity(intent);
     }
 
     private void handlePurchaseInvoiceDetail() {
         // Add code to handle purchase invoice detail item click
+        Toast.makeText(getActivity(), "Purchase Show...", Toast.LENGTH_SHORT).show();
+
+        // Start MainActivity to perform logout
+        Intent intent = new Intent(getActivity(), PurchaseshowActivity.class);
+        startActivity(intent);
+
     }
 
     private void handlePaymentDetail() {
+        Toast.makeText(getActivity(), "Payment Show...", Toast.LENGTH_SHORT).show();
+
+        // Start MainActivity to perform logout
+        Intent intent = new Intent(getActivity(), PaymentShowActivity.class);
+        startActivity(intent);
+        // Add code to handle paym
         // Add code to handle payment detail item click
     }
 
-    private void handleItemAdd() {
+    private void handleitemAdd() {
+        Toast.makeText(getActivity(), "items Show...", Toast.LENGTH_SHORT).show();
+
+        // Start MainActivity to perform logout
+        Intent intent = new Intent(getActivity(), ItemShowActivity.class);
+        startActivity(intent);
+        // Add code to handle payment detail item click
+    }
+
+    private void handleclientAdd() {
+        Toast.makeText(getActivity(), "Client Show...", Toast.LENGTH_SHORT).show();
+
+        // Start MainActivity to perform logout
+        Intent intent = new Intent(getActivity(), DataShowActivity.class);
+        startActivity(intent);
         // Add code to handle item add item click
     }
 

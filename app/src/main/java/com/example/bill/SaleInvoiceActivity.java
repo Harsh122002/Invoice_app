@@ -2,21 +2,24 @@ package com.example.bill;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.appcompat.app.AppCompatActivity;
+
 import com.google.android.material.textfield.TextInputEditText;
 
-import java.text.BreakIterator;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -25,7 +28,7 @@ public class SaleInvoiceActivity extends AppCompatActivity {
 
     private TextInputEditText invoiceNumEditText;
     private TextInputEditText dateEditText;
-    private TextInputEditText Address;
+    private TextInputEditText AddressView;
     private ImageButton imageButton;
     private SItemDbHelper dbHelper;
     private Button addItemButton;
@@ -45,9 +48,20 @@ public class SaleInvoiceActivity extends AppCompatActivity {
             imageButton = findViewById(R.id.imageButton);
             addItemButton = findViewById(R.id.addItemButton);
             textView = findViewById(R.id.textView);
-            Address = findViewById(R.id.address);
+            AddressView = findViewById(R.id.address);
             // Generate and set invoice number
             generateAndSetInvoiceNumber();
+
+            String invoice = invoiceNumEditText.getText().toString();
+
+
+
+// Save the shop name to SharedPreferences
+            SharedPreferences.Editor editor = getSharedPreferences("MyPrefs", MODE_PRIVATE).edit();
+            editor.putString("SHOP_invoice", invoice);
+
+
+            editor.apply();
 
             // Set OnClickListener for the date EditText
             dateEditText.setOnClickListener(new View.OnClickListener() {
@@ -72,17 +86,29 @@ public class SaleInvoiceActivity extends AppCompatActivity {
             addItemButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    // Start NewActivity using the context of the view's context
-                    Context context = v.getContext();
-                    Intent intent = new Intent(context, NewActivity.class);
-                    // Pass necessary data to the NewActivity using intent extras
-                    intent.putExtra("invoice_number", invoiceNumEditText.getText().toString());
-                    intent.putExtra("selected_date", dateEditText.getText().toString());
+                    // Retrieve necessary data from EditText and TextView fields
+                    String invoiceNumber = invoiceNumEditText.getText().toString();
+                    String selectedDate = dateEditText.getText().toString();
+                    String clientName = textView.getText().toString();
+                    String address = AddressView.getText().toString();
 
-                    intent.putExtra("client_name", textView.getText().toString()); // Assuming you have a TextView named textView that displays the selected company name
-                    intent.putExtra("address", Address.getText().toString()); // Replace "Your address data here" with the actual address data
+                    // Check if any of the necessary data is empty
+                    if (TextUtils.isEmpty(invoiceNumber) || TextUtils.isEmpty(selectedDate) ||
+                            TextUtils.isEmpty(clientName) || TextUtils.isEmpty(address)) {
+                        // If any data is empty, show a toast message and return
+                        Toast.makeText(v.getContext(), "Please fill all necessary data", Toast.LENGTH_SHORT).show();
+                        return;
+                    }
+
+                    // Start NewActivity using the context of the view's context
+                    Intent intent = new Intent(v.getContext(), NewActivity.class);
+                    // Pass necessary data to the NewActivity using intent extras
+                    intent.putExtra("invoice_number", invoiceNumber);
+                    intent.putExtra("selected_date", selectedDate);
+                    intent.putExtra("client_name", clientName);
+                    intent.putExtra("address", address);
                     // Start the NewActivity
-                    context.startActivity(intent);
+                    v.getContext().startActivity(intent);
                 }
             });
 
