@@ -253,7 +253,7 @@
         android:layout_height="match_parent">
 
         <TextView
-            android:layout_width="75dp"
+            android:layout_width="77dp"
             android:layout_height="wrap_content"
             android:text="AllAmount:"
             android:textStyle="bold"/>
