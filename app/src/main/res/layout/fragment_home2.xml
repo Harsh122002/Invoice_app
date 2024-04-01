@@ -123,7 +123,7 @@
         android:paddingLeft="20dp"
         android:paddingRight="20dp"
         android:scrollIndicators="bottom"
-        android:text="Client Add"
+        android:text="Beneficiary  Add"
         android:textSize="30sp"
         android:textStyle="bold"
         app:drawableLeftCompat="@drawable/ic_add"
