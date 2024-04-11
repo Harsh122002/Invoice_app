@@ -16,7 +16,7 @@ public class ItemAddActivity extends AppCompatActivity {
     private EditText editTextItemName;
     private EditText editTextItemPrice;
     private EditText editTextItemDiscount;
-    private EditText editTextGstTax;
+    private EditText editTextGstTax,editTextqty;
 
     private ItemDbHelper dbHelper;
 
@@ -30,6 +30,7 @@ public class ItemAddActivity extends AppCompatActivity {
         editTextItemPrice = findViewById(R.id.editTextItemPrice);
         editTextItemDiscount = findViewById(R.id.editTextItemDiscount);
         editTextGstTax = findViewById(R.id.gst_tax);
+        editTextqty=findViewById(R.id.qty);
         Button buttonAddItem = findViewById(R.id.buttonAddItem);
 
         // Initialize database helper
@@ -63,6 +64,7 @@ public class ItemAddActivity extends AppCompatActivity {
         double itemPrice = Double.parseDouble(editTextItemPrice.getText().toString().trim());
         double itemDiscount = Double.parseDouble(editTextItemDiscount.getText().toString().trim());
         double itemGstTax = Double.parseDouble(editTextGstTax.getText().toString().trim());
+        double itemqty = Double.parseDouble(editTextqty.getText().toString().trim());
 
         // Get a writable database
         SQLiteDatabase db = dbHelper.getWritableDatabase();
@@ -73,6 +75,7 @@ public class ItemAddActivity extends AppCompatActivity {
         values.put(ItemContract.ItemEntry.COLUMN_NAME_PRICE, itemPrice);
         values.put(ItemContract.ItemEntry.COLUMN_NAME_DISCOUNT, itemDiscount);
         values.put(ItemContract.ItemEntry.COLUMN_NAME_GST_TAX, itemGstTax);
+        values.put(ItemContract.ItemEntry.COLUMN_NAME_QTY,itemqty);
 
         // Insert the new row, returning the primary key value of the new row
         long newRowId = db.insert(ItemContract.ItemEntry.TABLE_NAME, null, values);

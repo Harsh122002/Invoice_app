@@ -59,13 +59,22 @@
             android:hint="Gst_Tax (%)"
             android:inputType="numberDecimal" />
 
+        <EditText
+            android:id="@+id/qty"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/gst_tax"
+            android:layout_marginTop="16dp"
+            android:hint="qty"
+            android:inputType="numberDecimal" />
+
 
 
         <Button
             android:id="@+id/buttonAddItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/gst_tax"
+            android:layout_below="@id/qty"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="16dp"
             android:text="Add Item" />

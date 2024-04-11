@@ -52,9 +52,7 @@ public class PItemDbHelper extends SQLiteOpenHelper {
     }
 
     // Called when the database needs to be downgraded
-    @Override
-    public void onDowngrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Drop newer table and create the older one
-        onUpgrade(db, oldVersion, newVersion);
-    }
+
+
+
 }

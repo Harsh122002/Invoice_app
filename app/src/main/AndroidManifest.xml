@@ -66,6 +66,8 @@
 
 
         <activity android:name=".FrontActivity">
+            android:theme="@style/MenuItemsTheme">
+
             <!-- Add any necessary intent filters or other configurations here -->
         </activity>
 

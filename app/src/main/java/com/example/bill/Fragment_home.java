@@ -1,6 +1,7 @@
 package com.example.bill;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -94,7 +95,9 @@ public class Fragment_home extends Fragment {
         // Set toolbar
         Toolbar toolbar = view.findViewById(R.id.toolbar);
         ((AppCompatActivity) requireActivity()).setSupportActionBar(toolbar);
-        toolbar.setTitle("Bill Application");
+        toolbar.setTitle("INVOICE APP");
+// Set the title color to white
+        toolbar.setTitleTextColor(Color.WHITE);
 
         setHasOptionsMenu(true); // Enable options menu
 

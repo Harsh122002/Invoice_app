@@ -69,12 +69,53 @@ public class PurchaseshowActivity extends AppCompatActivity implements PurchaseA
         loadPurchaseFromDatabase();
     }
 
-    private void deletePurchaseFromDatabase(long purchaseId) {
-        // Implement your code to delete the purchase with the specified ID from the database
-        PItemDbHelper dbHelper = new PItemDbHelper(this); // Change SItemDbHelper to PItemDbHelper
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        db.delete(PItemContract.ItemEntry.TABLE_NAME, PItemContract.ItemEntry._ID + "=?",
-                new String[]{String.valueOf(purchaseId)});
-        db.close();
+    private void deletePurchaseFromDatabase( long purchaseId) {
+        PItemDbHelper pItemDbHelper = new PItemDbHelper(this);
+        ItemDbHelper itemDbHelper = new ItemDbHelper(this);
+        SQLiteDatabase pDb = pItemDbHelper.getWritableDatabase();
+        SQLiteDatabase iDb = itemDbHelper.getWritableDatabase();
+
+        try {
+            // Step 1: Retrieve the purchase details (assuming product name and quantity)
+            String productName = ""; // This should be fetched based on your database schema
+            int purchaseQty = 0; // This should be fetched based on your database schema
+
+            Cursor cursor = pDb.query(
+                    PItemContract.ItemEntry.TABLE_NAME,
+                    new String[]{PItemContract.ItemEntry.COLUMN_NAME_PRODUCT, PItemContract.ItemEntry.COLUMN_NAME_QTY},
+                    PItemContract.ItemEntry._ID + "=?",
+                    new String[]{String.valueOf(purchaseId)},
+                    null, null, null);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                productName = cursor.getString(cursor.getColumnIndex(PItemContract.ItemEntry.COLUMN_NAME_PRODUCT));
+                purchaseQty = cursor.getInt(cursor.getColumnIndex(PItemContract.ItemEntry.COLUMN_NAME_QTY));
+                cursor.close();
+            }
+
+            if (!productName.isEmpty()) {
+                // Step 2: Retrieve the current quantity of the item
+                int currentQty = itemDbHelper.getQuantityForProduct(productName);
+
+                // Step 3: Calculate new quantity and update the item's quantity
+                int newQty =  purchaseQty -currentQty;
+                itemDbHelper.updateQuantityForProduct(productName, newQty);
+            }
+
+            // Step 4: Delete the purchase record
+            pDb.delete(PItemContract.ItemEntry.TABLE_NAME, PItemContract.ItemEntry._ID + "=?", new String[]{String.valueOf(purchaseId)});
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle any exceptions
+        } finally {
+            if (pDb != null) {
+                pDb.close();
+            }
+            if (iDb != null) {
+                iDb.close();
+            }
+        }
     }
+
 }

@@ -1,25 +1,26 @@
 package com.example.bill;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.SalesViewHolder> {
 
     private final SaleshowAcitvity SaleClickListener  ;
     private List<Sales> salesList;
-    private SaleClickListener itemClickListener;
+    private ItemDbHelper itemDbHelper;
+    private Context context;
 
-    public interface SaleClickListener {
 
 
-        void onDeleteClick(Sales sales);
-    }
 
 
     // Define the interface for handling delete button clicks
@@ -54,12 +55,18 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.SalesViewHolde
         holder.textViewAmount.setText(sales.getAmount());
         holder.textViewAllAmount.setText(sales.getTotalAmount());
 
+
+
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+
                 SaleClickListener.onDeleteClick(sales);
-            }
-        });
+
+            } });
+
+
     }
 
     @Override
@@ -73,6 +80,9 @@ public class SaleAdapter extends RecyclerView.Adapter<SaleAdapter.SalesViewHolde
         notifyDataSetChanged();
     }
 
+    public interface SaleClickListener {
+        void onDeleteClick(Sales sales);
+    }
 
 
     static class SalesViewHolder extends RecyclerView.ViewHolder {

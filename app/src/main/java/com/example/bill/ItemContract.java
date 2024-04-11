@@ -14,5 +14,7 @@ public final class ItemContract {
         public static final String COLUMN_NAME_PRICE = "price";
         public static final String COLUMN_NAME_DISCOUNT = "discount";
         public static final String COLUMN_NAME_GST_TAX = "gst_tax";
+        public static final String COLUMN_NAME_QTY = "qty";
+
     }
 }

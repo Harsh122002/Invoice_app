@@ -1,7 +1,31 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <!-- Base application theme. -->
-    <style name="Base.Theme.Bill" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your dark theme here. -->
-        <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <style name="Base.Theme.MyApplication" parent="Theme.Material3.DayNight.NoActionBar">
+        <!-- Customize your light theme here. -->
+        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+    </style>
+
+    <style name="Theme.Bill" parent="Base.Theme.MyApplication" />
+
+    <!-- Light theme -->
+    <style name="Theme.Bill.Light" parent="Theme.Bill">
+        <!-- Customize your light theme here -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <!-- Set custom overflow button icon -->
+        <item name="android:actionOverflowButtonStyle">@style/MyOverflowButtonStyle</item>
+        <!-- Add other theme attributes specific to light theme -->
+    </style>
+
+    <!-- Define custom overflow button style -->
+    <style name="MyOverflowButtonStyle" parent="@style/Widget.AppCompat.ActionButton.Overflow">
+        <item name="android:src">@drawable/ic_menu</item> <!-- Replace ic_custom_menu_icon with your custom icon -->
+    </style>
+
+    <!-- Dark theme -->
+    <style name="Theme.Bill.Dark" parent="Theme.Bill">
+        <!-- Customize your dark theme here -->
+        <!-- Add other theme attributes specific to dark theme -->
     </style>
 </resources>

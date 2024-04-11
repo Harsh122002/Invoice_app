@@ -71,11 +71,53 @@ public class SaleshowAcitvity extends AppCompatActivity implements SaleAdapter.S
     }
 
     private void deleteSaleFromDatabase(long saleId) {
-        // Implement your code to delete the sale with the specified ID from the database
-        SItemDbHelper dbHelper = new SItemDbHelper(this); // Change SalesDbHelper to SItemDbHelper
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        db.delete(SItemContract.ItemEntry.TABLE_NAME, SItemContract.ItemEntry._ID + "=?",
-                new String[]{String.valueOf(saleId)});
-        db.close();
+        SItemDbHelper sItemDbHelper = new SItemDbHelper(this);
+        ItemDbHelper itemDbHelper = new ItemDbHelper(this);
+        SQLiteDatabase sDb = sItemDbHelper.getWritableDatabase();
+        SQLiteDatabase iDb = itemDbHelper.getWritableDatabase();
+
+        try {
+            // Step 1: Retrieve the purchase details (assuming product name and quantity)
+            String productName = "";
+            int purchaseQty = 0;
+
+            Cursor cursor = sDb.query(
+                    SItemContract.ItemEntry.TABLE_NAME, // Ensure SItemContract corresponds to your sales items
+                    new String[]{SItemContract.ItemEntry.COLUMN_NAME_PRODUCT, SItemContract.ItemEntry.COLUMN_NAME_QTY},
+                    SItemContract.ItemEntry._ID + "=?",
+                    new String[]{String.valueOf(saleId)},
+                    null, null, null);
+
+            if (cursor != null && cursor.moveToFirst()) {
+                productName = cursor.getString(cursor.getColumnIndex(SItemContract.ItemEntry.COLUMN_NAME_PRODUCT));
+                purchaseQty = cursor.getInt(cursor.getColumnIndex(SItemContract.ItemEntry.COLUMN_NAME_QTY));
+                cursor.close();
+            }
+
+            if (!productName.isEmpty()) {
+                // Step 2: Retrieve the current quantity of the item
+                int currentQty = itemDbHelper.getQuantityForProduct(productName);
+
+                // Step 3: Calculate new quantity and update the item's quantity
+                // Assuming you want to subtract the purchase quantity from the current quantity
+                int newQty = currentQty + purchaseQty; // Note the correction here
+                itemDbHelper.updateQuantityForProduct1(productName, newQty);
+            }
+
+            // Step 4: Delete the purchase record
+            sDb.delete(SItemContract.ItemEntry.TABLE_NAME, SItemContract.ItemEntry._ID + "=?", new String[]{String.valueOf(saleId)});
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            // Handle any exceptions
+        } finally {
+            if (sDb != null) {
+                sDb.close();
+            }
+            if (iDb != null) {
+                iDb.close();
+            }
+        }
     }
+
 }

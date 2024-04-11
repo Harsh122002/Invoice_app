@@ -1,24 +1,30 @@
 package com.example.bill;
 
+import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
 import java.util.List;
 
 public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.PurchaseViewHolder> {
 
     private List<Purchase> purchaseList;
     private PurchaseClickListener clickListener;
+    private Context context; // Ensure you initialize this context in your constructor if needed.
 
     public interface PurchaseClickListener {
         void onDeleteClick(Purchase purchase);
     }
 
+    // Modified constructor to accept Context as well.
     public PurchaseAdapter(List<Purchase> purchaseList, PurchaseClickListener clickListener) {
+        this.context = context;
         this.purchaseList = purchaseList;
         this.clickListener = clickListener;
     }
@@ -38,17 +44,18 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.Purcha
         holder.textViewName.setText(purchase.getClientName());
         holder.textViewAddress.setText(purchase.getAddress());
         holder.textViewProduct.setText(purchase.getProduct());
-        holder.textViewQty.setText(purchase.getQuantity());
+        holder.textViewQty.setText(String.valueOf(purchase.getQuantity())); // Make sure to convert numerical values to String
         holder.textViewUnit.setText(purchase.getUnit());
-        holder.textViewPrice.setText(purchase.getPrice());
-        holder.textViewGst.setText(purchase.getGst());
-        holder.textViewDiscount.setText(purchase.getDiscount());
-        holder.textViewAmount.setText(purchase.getAmount());
-        holder.textViewAllAmount.setText(purchase.getTotalAmount());
+        holder.textViewPrice.setText(String.valueOf(purchase.getPrice()));
+        holder.textViewGst.setText(String.valueOf(purchase.getGst()));
+        holder.textViewDiscount.setText(String.valueOf(purchase.getDiscount()));
+        holder.textViewAmount.setText(String.valueOf(purchase.getAmount()));
+        holder.textViewAllAmount.setText(String.valueOf(purchase.getTotalAmount()));
 
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Invoke the onDeleteClick method
                 clickListener.onDeleteClick(purchase);
             }
         });
@@ -65,19 +72,8 @@ public class PurchaseAdapter extends RecyclerView.Adapter<PurchaseAdapter.Purcha
         notifyDataSetChanged();
     }
 
-    static class PurchaseViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewNumber;
-        TextView textViewDate;
-        TextView textViewName;
-        TextView textViewAddress;
-        TextView textViewProduct;
-        TextView textViewQty;
-        TextView textViewUnit;
-        TextView textViewPrice;
-        TextView textViewGst;
-        TextView textViewDiscount;
-        TextView textViewAmount;
-        TextView textViewAllAmount;
+    public class PurchaseViewHolder extends RecyclerView.ViewHolder {
+        TextView textViewNumber, textViewDate, textViewName, textViewAddress, textViewProduct, textViewQty, textViewUnit, textViewPrice, textViewGst, textViewDiscount, textViewAmount, textViewAllAmount;
         Button deleteButton;
 
         public PurchaseViewHolder(@NonNull View itemView) {

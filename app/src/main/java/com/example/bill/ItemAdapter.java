@@ -40,11 +40,14 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemsViewHolde
         holder.priceTextView.setText(item.getPrice());
         holder.discountTextView.setText(item.getDiscount());
         holder.gstTextView.setText(item.getGst());
+        holder.qtyTextView.setText(item.getqty());
+
 
         holder.deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 itemClickListener.onDeleteClick(item);
+
             }
         });
     }
@@ -64,7 +67,8 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemsViewHolde
         TextView nameTextView;
         TextView priceTextView;
         TextView discountTextView;
-        TextView gstTextView;
+        TextView gstTextView,qtyTextView;
+
         Button deleteButton;
 
         public ItemsViewHolder(@NonNull View itemView) {
@@ -73,6 +77,7 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemAdapter.ItemsViewHolde
             priceTextView = itemView.findViewById(R.id.priceTextView);
             discountTextView = itemView.findViewById(R.id.discountTextView);
             gstTextView = itemView.findViewById(R.id.gstTextView);
+            qtyTextView = itemView.findViewById(R.id.viewqty);
             deleteButton = itemView.findViewById(R.id.deleteButton);
         }
     }

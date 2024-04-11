@@ -8,16 +8,19 @@ public class Items {
     private String discount;
     private String gst;
 
+    private String qty;
+
     // Constructors
     public Items() {
     }
 
-    public Items(long id, String name, String price, String discount, String gst) {
+    public Items(long id, String name, String price, String discount, String gst,String qty) {
         this.id = id;
         this.name = name;
         this.price = price;
         this.discount = discount;
         this.gst = gst;
+        this.qty = qty;
     }
 
     // Getters
@@ -40,6 +43,10 @@ public class Items {
     public String getGst() {
         return gst;
     }
+    public String getqty() {
+        return qty;
+    }
+
 
     // Setters
     public void setId(long id) {
@@ -61,4 +68,8 @@ public class Items {
     public void setGst(String gst) {
         this.gst = gst;
     }
+    public void setqty(String qty) {
+        this.qty = qty;
+    }
+
 }

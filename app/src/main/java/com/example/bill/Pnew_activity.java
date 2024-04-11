@@ -29,7 +29,7 @@ import java.util.List;
 public class Pnew_activity extends AppCompatActivity {
 
     private ItemDbHelper itemDBHelper;
-    private SItemDbHelper SitemDBHelper;
+    private PItemDbHelper pitemDBHelper;
     private EditText qtyEditText, priceEditText, gstEditText, discountEditText, Unit, amountEditText;
     private TextView product, totalAmount;
     private Button saveButton, addButton;
@@ -107,11 +107,11 @@ public class Pnew_activity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_new);
+        setContentView(R.layout.activity_pnew);
 
         try {
             // Initialize database helpers
-            SitemDBHelper = new SItemDbHelper(this);
+            pitemDBHelper = new PItemDbHelper(this);
             itemDBHelper = new ItemDbHelper(this);
 
             // Find views by their IDs
@@ -149,23 +149,39 @@ public class Pnew_activity extends AppCompatActivity {
                     try {
                         // Retrieve values from EditText fields
                         String productName = product.getText().toString();
-                        String qty = qtyEditText.getText().toString();
+                        String qtyString = qtyEditText.getText().toString();
                         String unit = Unit.getText().toString();
-                        String price = priceEditText.getText().toString();
-                        String gst = gstEditText.getText().toString();
-                        String discount = discountEditText.getText().toString();
-                        String amount = amountEditText.getText().toString();
+                        String priceString = priceEditText.getText().toString();
+                        String gstString = gstEditText.getText().toString();
+                        String discountString = discountEditText.getText().toString();
+                        String amountString = amountEditText.getText().toString();
 
                         // Check if any of the EditText fields are empty
-                        if (TextUtils.isEmpty(productName) || TextUtils.isEmpty(qty) || TextUtils.isEmpty(unit) ||
-                                TextUtils.isEmpty(price) || TextUtils.isEmpty(gst) || TextUtils.isEmpty(discount) ||
-                                TextUtils.isEmpty(amount)) {
+                        if (TextUtils.isEmpty(productName) || TextUtils.isEmpty(qtyString) || TextUtils.isEmpty(unit) ||
+                                TextUtils.isEmpty(priceString) || TextUtils.isEmpty(gstString) || TextUtils.isEmpty(discountString) ||
+                                TextUtils.isEmpty(amountString)) {
                             // If any field is empty, show a toast message and return
                             Toast.makeText(Pnew_activity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
                             return;
                         }
 
-                        // Create a new row for the table
+                        // Convert strings to appropriate data types
+                        int qtyEntered = Integer.parseInt(qtyString);
+
+                        // Retrieve quantity from the database
+                        int qtyFromDatabase = retrieveQuantity(productName);
+
+                        // Check if entered quantity is greater than database quantity
+                        if (!(qtyEntered <= qtyFromDatabase)){
+                            Toast.makeText(Pnew_activity.this, "Entered quantity exceeds available stock", Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+
+
+
+
+
+                        // Database update successful
                         TableRow newRow = new TableRow(Pnew_activity.this);
 
                         // Create TextViews for each column in the row
@@ -178,13 +194,16 @@ public class Pnew_activity extends AppCompatActivity {
                         amountTextView = new TextView(Pnew_activity.this);
 
                         // Set text for TextViews
-                        qtyTextView.setText(qty);
-                        priceTextView.setText(price);
-                        gstTextView.setText(gst);
-                        discountTextView.setText(discount);
-                        amountTextView.setText(amount);
+                        qtyTextView.setText(qtyString);
+                        priceTextView.setText(priceString);
+                        gstTextView.setText(gstString);
+                        discountTextView.setText(discountString);
+                        amountTextView.setText(amountString);
                         unitTextView.setText(unit);
                         productNameTextView.setText(productName);
+                        Button deleteButton = new Button(Pnew_activity.this);
+                        deleteButton.setText("Delete");
+
 
                         // Add TextViews to the TableRow
                         newRow.addView(productNameTextView);
@@ -194,19 +213,30 @@ public class Pnew_activity extends AppCompatActivity {
                         newRow.addView(gstTextView);
                         newRow.addView(discountTextView);
                         newRow.addView(amountTextView);
+                        newRow.addView(deleteButton);
+
 
                         // Add the new row to the table layout
                         TableLayout tableLayout = findViewById(R.id.tableLayout);
                         tableLayout.addView(newRow);
+                        deleteButton.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                // Remove the TableRow from its parent (the TableLayout)
+                                tableLayout.removeView(newRow);
+                            }
+                        });
 
                         // Clear EditText fields after saving
                         clearEditTextFields();
-
-                        // Show a toast message indicating save action
-                        Toast.makeText(Pnew_activity.this, "Data saved and added to table", Toast.LENGTH_SHORT).show();
-
-                        // Update total amount after adding a new row
                         updateTotalAmount();
+
+                        Toast.makeText(Pnew_activity.this, "value add in table", Toast.LENGTH_SHORT).show();
+
+
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        Toast.makeText(Pnew_activity.this, "Error occurred while parsing quantity or price", Toast.LENGTH_SHORT).show();
                     } catch (Exception e) {
                         e.printStackTrace();
                         Toast.makeText(Pnew_activity.this, "Error occurred while saving data", Toast.LENGTH_SHORT).show();
@@ -225,6 +255,7 @@ public class Pnew_activity extends AppCompatActivity {
                         String clientName = getIntent().getStringExtra("client_name");
                         String address = getIntent().getStringExtra("address");
 
+                        // Retrieve values from TextView fields
                         String productName = productNameTextView.getText().toString();
                         String qty = qtyTextView.getText().toString();
                         String unit = unitTextView.getText().toString();
@@ -233,42 +264,54 @@ public class Pnew_activity extends AppCompatActivity {
                         String discount = discountTextView.getText().toString();
                         String amount = amountTextView.getText().toString();
 
-                        // Check if any of the EditText fields are empty
-                        if (TextUtils.isEmpty(productName) || TextUtils.isEmpty(qty) || TextUtils.isEmpty(unit) ||
-                                TextUtils.isEmpty(price) || TextUtils.isEmpty(gst) || TextUtils.isEmpty(discount) ||
-                                TextUtils.isEmpty(amount)) {
-                            // If any field is empty, show a toast message and return
-                            Toast.makeText(Pnew_activity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
+                        String qtyString = qtyTextView.getText().toString();
+                        // Convert the string quantity to an integer
+                        int qtyEntered1 = Integer.parseInt(qtyString);
+                        int qtyFromDatabase = retrieveQuantity(productName);
 
-                        // Calculate total amount
-                        double totalAmount = calculateTotalAmountInTable();
+                        // Assuming you have logic to calculate the updated quantity based on the operation you're performing
+                        int updatedQty = qtyFromDatabase - qtyEntered1;
 
-                        // Create a list to hold the order
-                        List<Order> orders = new ArrayList<>();
+                        // Update quantity in the database
+                        boolean isUpdateSuccessful = itemDBHelper.updateQuantityForProduct1(productName, updatedQty);
 
-                        // Create a new order object
-                        Order order = new Order(productName, qty, unit, price, gst, discount, amount, totalAmount);
+                        if(isUpdateSuccessful){
+                            // Check if any of the TextView fields are empty
+                            if (TextUtils.isEmpty(productName) || TextUtils.isEmpty(qty) || TextUtils.isEmpty(unit) ||
+                                    TextUtils.isEmpty(price) || TextUtils.isEmpty(gst) || TextUtils.isEmpty(discount) ||
+                                    TextUtils.isEmpty(amount)) {
+                                // If any field is empty, show a toast message and return
+                                Toast.makeText(Pnew_activity.this, "Please fill all fields", Toast.LENGTH_SHORT).show();
+                                return;
+                            }
 
-                        // Add the order to the list
-                        orders.add(order);
+                            // Calculate total amount
+                            double totalAmount = calculateTotalAmountInTable();
 
-                        // Log debug information for each order in the list
-                        Log.d("insertOrderData", "Order: " + amountTextView.getText().toString() + " " + gstTextView.getText().toString());
+                            // Create a list to hold the order
+                            List<Pnew_activity.Order> orders = new ArrayList<>();
 
-                        // Insert data into the database for the current item
-                        insertOrderData(invoiceNumber, selectedDate, clientName, address, orders);
+                            // Create a new order object
+                            Pnew_activity.Order order = new Pnew_activity.Order(productName, qty, unit, price, gst, discount, amount, totalAmount);
 
-                        // Show a toast message indicating add action
-                        Toast.makeText(Pnew_activity.this, "Data added for the current item", Toast.LENGTH_SHORT).show();
+                            // Add the order to the list
+                            orders.add(order);
 
-                        // Start the FrontActivity
-                        Intent intent = new Intent(Pnew_activity.this, FrontActivity.class);
-                        startActivity(intent);
+                            // Log debug information for each order in the list
+                            Log.d("insertOrderData", "Order: " + amount + " " + gst);
 
-                        // Finish the current activity
-                        finish();
+                            // Insert data into the database for the current item
+                            insertOrderData(invoiceNumber, selectedDate, clientName, address, orders);
+
+                            // Show a toast message indicating add action
+                            Toast.makeText(Pnew_activity.this, "Data added for the current item", Toast.LENGTH_SHORT).show();
+
+                            // Start the view_activity
+                            Intent intent = new Intent(Pnew_activity.this, view_activity.class);
+                            startActivity(intent);
+
+                            // Finish the current activity
+                            finish();}
                     } catch (Exception e) {
                         e.printStackTrace();
                         Toast.makeText(Pnew_activity.this, "Error occurred while adding data", Toast.LENGTH_SHORT).show();
@@ -521,5 +564,17 @@ public class Pnew_activity extends AppCompatActivity {
 
         return totalAmount;
     }
+    private int retrieveQuantity(String productName) {
+        try {
+            // Retrieve quantity using ItemDbHelper
+            return itemDBHelper.getQuantityForProduct(productName);
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(Pnew_activity.this, "Error occurred while retrieving quantity", Toast.LENGTH_SHORT).show();
+            return 0; // or any default value
+        }
+    }
+
+
 }
 

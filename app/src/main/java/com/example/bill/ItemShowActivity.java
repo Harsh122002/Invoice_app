@@ -44,6 +44,8 @@ public class ItemShowActivity extends AppCompatActivity implements ItemAdapter.I
                 items.setPrice(cursor.getString(cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_NAME_PRICE)));
                 items.setDiscount(cursor.getString(cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_NAME_DISCOUNT)));
                 items.setGst(cursor.getString(cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_NAME_GST_TAX)));
+                items.setqty(cursor.getString(cursor.getColumnIndex(ItemContract.ItemEntry.COLUMN_NAME_QTY)));
+
 
                 itemList.add(items);
             } while (cursor.moveToNext());

@@ -8,10 +8,9 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.pdf.PdfDocument;
-import android.location.Address;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
+import android.os.Handler;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
@@ -81,113 +80,118 @@ public class view_activity extends AppCompatActivity {
 
 
     // Method to initiate PDF download
-    private void initiateDownload(String invoice, List<Item> itemData, String shopName,String Address,String Gst) throws IOException {
-        // Create a new PDF document
-        PdfDocument document = new PdfDocument();
+    private void initiateDownload(final String invoice, final List<Item> itemData, final String shopName, final String Address, final String Gst) throws IOException {
+        // Create a handler with a delay of 15 seconds
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                // Inside the delayed action, create the PDF and start the download
+                try {
+                    // Create a new PDF document
+                    PdfDocument document = new PdfDocument();
 
-        // Define the page size and create a page
-        PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(612, 900, 1).create();
-        PdfDocument.Page page = document.startPage(pageInfo);
+                    // Define the page size and create a page
+                    PdfDocument.PageInfo pageInfo = new PdfDocument.PageInfo.Builder(612, 900, 1).create();
+                    PdfDocument.Page page = document.startPage(pageInfo);
 
-        // Get the canvas for drawing
-        Canvas canvas = page.getCanvas();
+                    // Get the canvas for drawing
+                    Canvas canvas = page.getCanvas();
 
-        // Define the paint properties
-        Paint paint = new Paint();
-        paint.setColor(Color.BLACK);
-        paint.setTextSize(12);
+                    // Define the paint properties
+                    Paint paint = new Paint();
+                    paint.setColor(Color.BLACK);
+                    paint.setTextSize(12);
 
-        // Calculate the initial position to draw the first table header
-        float x = 50;
-        float y = 200;
-        String text= shopName;
-        canvas.drawText(text,x+250,y,paint);
-        String text1=Address;
-        canvas.drawText(text1,x+250,y+20,paint);
-        String text3=Gst;
-        canvas.drawText(text3,x+250,y+40,paint);
-        String text4=invoice;
-        canvas.drawText(text4,x,y+60,paint);
+                    // Calculate the initial position to draw the first table header
+                    float x = 50;
+                    float y = 200;
+                    String text = shopName;
+                    canvas.drawText(text, x + 250, y, paint);
+                    String text1 = Address;
+                    canvas.drawText(text1, x + 250, y + 20, paint);
+                    String text3 = Gst;
+                    canvas.drawText(text3, x + 250, y + 40, paint);
+                    String text4 = invoice;
+                    canvas.drawText(text4, x, y + 60, paint);
 
-        y+=100;
+                    y += 100;
 
+                    // Draw the first table header
+                    canvas.drawText("Client Name", x, y, paint);
+                    canvas.drawText("Address", x + 200, y, paint);
+                    canvas.drawText("Date", x + 400, y, paint);
 
-        // Draw the first table header
-        canvas.drawText("Client Name", x, y, paint);
-        canvas.drawText("Address", x + 200, y, paint);
-        canvas.drawText("Date", x + 400, y, paint);
+                    // Adjust the y-coordinate for next drawing
+                    y += paint.getTextSize() + 5; // Add some spacing between header and data
 
-        // Adjust the y-coordinate for next drawing
-        y += paint.getTextSize() + 5; // Add some spacing between header and data
+                    // Loop through itemData to draw each item's details in the first table
+                    for (Item item : itemData) {
+                        // Draw item details in the first table format
+                        canvas.drawText(item.getClientName(), x, y, paint);
+                        canvas.drawText(item.getAddress(), x + 200, y, paint);
+                        canvas.drawText(item.getDate(), x + 400, y, paint);
 
-        // Loop through itemData to draw each item's details in the first table
-        for (Item item : itemData) {
-            // Draw item details in the first table format
-            canvas.drawText(item.getClientName(), x, y, paint);
-            canvas.drawText(item.getAddress(), x + 200, y, paint);
-            canvas.drawText(item.getDate(), x + 400, y, paint);
+                        // Adjust the y-coordinate for next row
+                        y += paint.getTextSize() + 5; // Add some spacing between rows
+                    }
 
-            // Adjust the y-coordinate for next row
-            y += paint.getTextSize() + 5; // Add some spacing between rows
-        }
+                    // Adjust the y-coordinate for spacing between tables
+                    y += 20; // Add spacing between tables
 
-        // Adjust the y-coordinate for spacing between tables
-        y += 20; // Add spacing between tables
+                    // Draw the second table header
+                    canvas.drawText("Product", x, y, paint);
+                    canvas.drawText("Qty", x + 100, y, paint);
+                    canvas.drawText("Unit", x + 120, y, paint);
+                    canvas.drawText("Price", x + 170, y, paint);
+                    canvas.drawText("Gst", x + 220, y, paint);
+                    canvas.drawText("Discount", x + 250, y, paint);
+                    canvas.drawText("Amount", x + 330, y, paint);
+                    canvas.drawText("Total Amount", x + 420, y, paint);
 
-        // Draw the second table header
-        canvas.drawText("Product", x, y, paint);
-        canvas.drawText("Qty", x + 100, y, paint);
-        canvas.drawText("Unit", x + 120, y, paint);
-        canvas.drawText("Price", x + 170, y, paint);
-        canvas.drawText("Gst", x + 220, y, paint);
-        canvas.drawText("Discount", x + 250, y, paint);
-        canvas.drawText("Amount", x + 330, y, paint);
-        canvas.drawText("Total Amount", x + 420, y, paint);
+                    // Adjust the y-coordinate for next drawing
+                    y += paint.getTextSize() + 5; // Add some spacing between header and data
 
+                    // Loop through itemData to draw each item's details in the second table
+                    for (Item item : itemData) {
+                        // Draw item details in the second table format
+                        canvas.drawText(item.getProduct(), x, y, paint);
+                        canvas.drawText(String.valueOf(item.getQuantity()), x + 100, y, paint);
+                        canvas.drawText(item.getUnit(), x + 120, y, paint);
+                        canvas.drawText(String.valueOf(item.getPrice()), x + 170, y, paint);
+                        canvas.drawText(String.valueOf(item.getGst()), x + 220, y, paint);
+                        canvas.drawText(String.valueOf(item.getDiscount()), x + 250, y, paint);
+                        canvas.drawText(String.valueOf(item.getAmount()), x + 330, y, paint);
+                        canvas.drawText(String.valueOf(item.getTotalAmount()), x + 420, y, paint);
 
+                        // Adjust the y-coordinate for next row
+                        y += paint.getTextSize() + 5; // Add some spacing between rows
+                    }
+                    y += 100;
+                    String text6 = "This Bill Computer is Generated Therefore Sign is not Required";
+                    canvas.drawText(text6, x + 75, y + 200, paint);
 
+                    // Finish the page
+                    document.finishPage(page);
 
+                    // Define the file to save the PDF
+                    File file = new File(getFilesDir(), "my_pdf_document.pdf");
 
-        // Adjust the y-coordinate for next drawing
-        y += paint.getTextSize() + 5; // Add some spacing between header and data
+                    // Write the PDF content to the file
+                    FileOutputStream fos = new FileOutputStream(file);
+                    document.writeTo(fos);
+                    document.close();
+                    fos.close();
 
-        // Loop through itemData to draw each item's details in the second table
-        for (Item item : itemData) {
-            // Draw item details in the second table format
-            canvas.drawText(item.getProduct(), x, y, paint);
-            canvas.drawText(String.valueOf(item.getQuantity()), x + 100, y, paint);
-            canvas.drawText(item.getUnit(), x + 120, y, paint);
-            canvas.drawText(String.valueOf(item.getPrice()), x + 170, y, paint);
-            canvas.drawText(String.valueOf(item.getGst()), x + 220, y, paint);
-            canvas.drawText(String.valueOf(item.getDiscount()), x + 250, y, paint);
-            canvas.drawText(String.valueOf(item.getAmount()), x + 330, y, paint);
-            canvas.drawText(String.valueOf(item.getTotalAmount()), x + 420, y, paint);
+                    // Display a toast message indicating success
+                    Toast.makeText(getApplicationContext(), "PDF created successfully", Toast.LENGTH_SHORT).show();
 
-
-            // Adjust the y-coordinate for next row
-            y += paint.getTextSize() + 5; // Add some spacing between rows
-        }
-        y+=100;
-        String text6="This Bill Computer is Generated Therefore Sign is not Required";
-        canvas.drawText(text6,x+75,y+200,paint);
-
-        // Finish the page
-        document.finishPage(page);
-
-        // Define the file to save the PDF
-        File file = new File(getFilesDir(), "my_pdf_document.pdf");
-
-        // Write the PDF content to the file
-        FileOutputStream fos = new FileOutputStream(file);
-        document.writeTo(fos);
-        document.close();
-        fos.close();
-
-        // Display a toast message indicating success
-        Toast.makeText(this, "PDF created successfully", Toast.LENGTH_SHORT).show();
-
-        // Start the download process
-        startDownload(file);
+                    // Start the download process
+                    startDownload(file);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, 1500); // 15 seconds delay (in milliseconds)
     }
 
 
@@ -206,12 +210,9 @@ public class view_activity extends AppCompatActivity {
         // Add the FLAG_GRANT_READ_URI_PERMISSION flag
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
 
-
         // Start the activity to view the PDF
         startActivity(intent);
-
-    }
-    private List<Item> fetchItems(String invoiceNumber) {
+    }    private List<Item> fetchItems(String invoiceNumber) {
         try {
             List<Item> itemData = new ArrayList<>();
 
