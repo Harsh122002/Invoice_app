@@ -1,12 +1,10 @@
 package com.example.bill;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class FrontActivity extends AppCompatActivity {
@@ -21,35 +19,24 @@ public class FrontActivity extends AppCompatActivity {
         setContentView(R.layout.activity_front);
 
         bottomNavigationView = findViewById(R.id.bottom_navigation);
-        replaceFragment(new Fragment_home()
-        );
-
         bottomNavigationView.setOnItemSelectedListener(new BottomNavigationView.OnItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
                 int itemId = item.getItemId();
                 if (itemId == MENU_HOME) {
-                    replaceFragment(new Fragment_home()
-                    );
+                    startActivity(new Intent(FrontActivity.this, HomeActivity.class));
+                    finish(); // Finish the current activity
                     return true;
                 } else if (itemId == MENU_PROFILE) {
-                    replaceFragment(new fragment_profile());
+                    startActivity(new Intent(FrontActivity.this, ProfileActivity.class));
+                    finish(); // Finish the current activity
                     return true;
                 }
                 return false;
             }
         });
-        replaceFragment(new Fragment_home());
-    }
 
-    private void replaceFragment(Fragment fragment) {
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.fragment_container, fragment)
-                .addToBackStack(null)  // Add fragment to backstack
-                .commit();
+        // Set default selected item
+        bottomNavigationView.setSelectedItemId(MENU_HOME);
     }
-
 }
-
-
-

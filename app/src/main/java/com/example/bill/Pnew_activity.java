@@ -21,6 +21,7 @@ import android.widget.TableRow;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.ArrayList;
@@ -172,10 +173,7 @@ public class Pnew_activity extends AppCompatActivity {
                         int qtyFromDatabase = retrieveQuantity(productName);
 
                         // Check if entered quantity is greater than database quantity
-                        if (!(qtyEntered <= qtyFromDatabase)){
-                            Toast.makeText(Pnew_activity.this, "Entered quantity exceeds available stock", Toast.LENGTH_SHORT).show();
-                            return;
-                        }
+
 
 
 
@@ -270,7 +268,7 @@ public class Pnew_activity extends AppCompatActivity {
                         int qtyFromDatabase = retrieveQuantity(productName);
 
                         // Assuming you have logic to calculate the updated quantity based on the operation you're performing
-                        int updatedQty = qtyFromDatabase - qtyEntered1;
+                        int updatedQty =  qtyEntered1+qtyFromDatabase;
 
                         // Update quantity in the database
                         boolean isUpdateSuccessful = itemDBHelper.updateQuantityForProduct1(productName, updatedQty);
@@ -307,11 +305,14 @@ public class Pnew_activity extends AppCompatActivity {
                             Toast.makeText(Pnew_activity.this, "Data added for the current item", Toast.LENGTH_SHORT).show();
 
                             // Start the view_activity
-                            Intent intent = new Intent(Pnew_activity.this, view_activity.class);
-                            startActivity(intent);
+
+                            startActivity(new Intent(Pnew_activity.this, HomeActivity.class));
+                            finish();
+//
+
 
                             // Finish the current activity
-                            finish();}
+                            }
                     } catch (Exception e) {
                         e.printStackTrace();
                         Toast.makeText(Pnew_activity.this, "Error occurred while adding data", Toast.LENGTH_SHORT).show();

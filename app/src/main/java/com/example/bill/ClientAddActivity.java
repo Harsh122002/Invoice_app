@@ -61,14 +61,14 @@ public class ClientAddActivity extends AppCompatActivity {
                 }
 
                 // Validate email format (ending with "@company.com")
-                if (!emailId.matches(".*@company\\.com$")) {
+                if (!emailId.matches(".*@gmail\\.com$")) {
                     Toast.makeText(getApplicationContext(), "Email should end with '@company.com'", Toast.LENGTH_SHORT).show();
                     return; // Exit the method
                 }
 
                 // If all validations pass, proceed to insert client
                 insertClient();
-                Intent intent = new Intent(ClientAddActivity.this, Fragment_home.class);
+                Intent intent = new Intent(ClientAddActivity.this, HomeActivity.class);
                 startActivity(intent);
             }
         });

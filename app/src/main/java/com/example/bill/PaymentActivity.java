@@ -19,7 +19,6 @@ import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -177,7 +176,7 @@ public class PaymentActivity extends AppCompatActivity {
                 }
                 else {
                     saveToDatabase();
-                    Intent intent = new Intent(PaymentActivity.this,Fragment_home.class);
+                    Intent intent = new Intent(PaymentActivity.this, FrontActivity.class);
                     startActivity(intent);
 
                 }

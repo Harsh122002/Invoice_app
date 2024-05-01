@@ -61,11 +61,17 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String enteredEmail = emailEditText.getText().toString().trim();
                 String enteredPassword = passwordEditText.getText().toString().trim();
+
+                SharedPreferences sharedPreferences = getSharedPreferences("MyPrefs", MODE_PRIVATE);
+                SharedPreferences.Editor editor = sharedPreferences.edit();
+                editor.putString("email", enteredEmail);
+                editor.apply();
 
                 if (enteredEmail.isEmpty() || enteredPassword.isEmpty()) {
                     Toast.makeText(MainActivity.this, "Please enter both email and password", Toast.LENGTH_SHORT).show();
@@ -78,9 +84,8 @@ public class MainActivity extends AppCompatActivity {
                     if (loginSuccess) {
                         Log.d("MainActivity", "Login successful");
                         Toast.makeText(MainActivity.this, "Login successful", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(MainActivity.this, FrontActivity.class);
-                        intent.putExtra("key_email", enteredEmail);
-                        startActivity(intent);
+                        Intent intent1 = new Intent(MainActivity.this, HomeActivity.class);
+                        startActivity(intent1);
                         finish();
                     } else {
                         Log.d("MainActivity", "Login failed");

@@ -51,7 +51,7 @@ public class ItemAddActivity extends AppCompatActivity {
                 }
                 else {
                 addItemToDatabase();
-                    Intent intent = new Intent(ItemAddActivity.this, Fragment_home.class);
+                    Intent intent = new Intent(ItemAddActivity.this, HomeActivity.class);
                     startActivity(intent);
                     finish();
                 }}

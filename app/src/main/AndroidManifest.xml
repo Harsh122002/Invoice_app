@@ -101,11 +101,17 @@
 
 
         </activity>
-        <activity android:name=".Fragment_home" />
+        <activity android:name=".HomeActivity" />
 
 
 
         <activity android:name=".PaymentActivity">
+            <!-- Add any necessary intent filters or other configurations here -->
+        </activity>
+
+
+
+        <activity android:name=".ProfileActivity">
             <!-- Add any necessary intent filters or other configurations here -->
         </activity>
 
